@@ -1,0 +1,14 @@
+<h2>WEB_Lab_0</h2>
+
+{{#if students.length}}
+<ul>
+{{#each students}}
+    <li>
+        <span>{{id}} {{name}} {{surname}}</span>
+    </li>
+{{/each}}
+</ul>
+    
+{{else}}
+    <p>No students!</p>
+{{/if}}

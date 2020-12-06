@@ -1,0 +1,18 @@
+<form action="/update" method="POST">
+    <h2>Update operation</h2>
+    <div class="row">
+        <div class="input-field col s12">
+            <input type="number" name="id" min="1" max="999" required></input>
+            <label>Id student for update</label>
+        </div>
+        <div class="input-field col s12">
+            <input type="text" name="name" min="2" max="15" required></input>
+            <label>New name for student</label>
+        </div>
+        <div class="input-field col s12">
+            <input type="text" name="surname" min="3" max="30" required></input>
+            <label>New surname for student</label>
+        </div>
+    </div>
+    <button type="submit" class="btn">Update</button>
+</form>

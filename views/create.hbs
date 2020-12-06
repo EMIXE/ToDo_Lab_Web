@@ -1,0 +1,20 @@
+ <form action="/create" method="POST">
+    <h2>Create operation</h2>
+
+    <div class="row">
+        <div class="input-field col s12">
+            <input type="text" name="name" min="2" max="15" required >
+            <label>Name</label>
+        </div>
+        <p id="validName"></p>
+    </div>
+        
+    <div class="row">
+        <div class="input-field col s12">
+            <input type="text" name="surname" min="3" max="30" required >
+            <label>Surname</label>
+        </div>
+    </div>
+    <button type="submit" button onclick="myFunction()" class="btn">Create</button>
+
+</form>

@@ -1,0 +1,37 @@
+ <nav>
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo">Students</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        {{#if isIndex}}
+          <li class="active"><a href="/">Students</a></li>
+        {{else}}
+          <li><a href="/">Students</a></li>
+        {{/if}}
+
+        {{#if isCreate}}
+          <li class="active"><a href="/create">Create</a></li>
+        {{else}}
+          <li><a href="/create">Create</a></li>
+        {{/if}}
+
+        {{#if isRead}}
+          <li class="active"><a href="/read">Read</a></li>
+        {{else}}
+          <li><a href="/read">Read</a></li>
+        {{/if}}
+
+        {{#if isUpdate}}
+          <li class="active"><a href="/update">Update</a></li>
+        {{else}}
+          <li><a href="/update">Update</a></li>
+        {{/if}}
+
+        {{#if isDelete}}
+          <li class="active"><a href="/update">Delete</a></li>
+        {{else}}
+          <li><a href="/delete">Delete</a></li>
+        {{/if}}
+
+      </ul>
+    </div>
+  </nav>
