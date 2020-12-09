@@ -1,7 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const path = require('path')
 const exphbs = require('express-handlebars')
-const studentsRoutes = require('./routes/students')
+const todosRoutes = require('./routes/todos')
+const usersRoutes = require('./routes/users')
 
 const PORT = process.env.PORT || 3000
 
@@ -16,8 +18,9 @@ app.set('view engine', 'hbs')
 app.set('views', 'views')
 
 app.use(express.urlencoded({extended: true}))
-
-app.use(studentsRoutes)
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(todosRoutes)
+app.use(usersRoutes)
 
 async function start() {
     try {

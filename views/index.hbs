@@ -1,14 +1,29 @@
-<h2>WEB_Lab_0</h2>
+<h2>Todos Lab</h2>
 
-{{#if students.length}}
+{{#if todos.length}}
 <ul>
-{{#each students}}
-    <li>
-        <span>{{id}} {{name}} {{surname}}</span>
+{{#each todos}}
+    <li class="todo">
+        <form action="/delete" method="POST"> 
+            <label>
+                {{#if completed}}
+                    <input type="checkbox" checked>
+                    <span class="comleted">{{name}} {{description}}
+                    </span>
+                {{else}}
+                    <input type="checkbox" onChange="functionChanged();">
+                    <span> {{name}} {{description}}
+                    </span>
+                {{/if}}
+                <input type="hidden" value="{{id}}" name="id">
+
+                <button class="btn btn-small" type="submit">Delete</button>
+            </label>
+        </form>
     </li>
 {{/each}}
 </ul>
     
 {{else}}
-    <p>No students!</p>
+    <p>No Todos!</p>
 {{/if}}

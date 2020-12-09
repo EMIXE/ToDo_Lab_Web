@@ -1,0 +1,33 @@
+<form action="/register" method="POST">
+    <h2>Welcome!</h2>
+    <h3>Please, register or log in!</h3> 
+ <div class="row">
+        <div class="input-field col s12">
+            <input type="text" name="username" min="2" max="15" >
+            <label>Username</label>
+        </div>
+        <p id="validName"></p>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s12">
+            <input type="text" name="email" min="3" max="30" required >
+            <label>Email</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s12">
+            <input type="text" name="password" min="3" max="30" required >
+            <label>Password</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s12">
+            <input type="text" name="repeatPassword" min="3" max="30" >
+            <label>Repeat password</label>
+        </div>
+    </div>
+    <button type="submit" button onclick="myFunction()" class="btn">Register</button>
+</form>
