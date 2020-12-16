@@ -1,5 +1,6 @@
 <h2>Todos Lab</h2>
-
+{{#if User}}
+<h4>Hi, {{User.email}}</h4>
 {{#if todos.length}}
 <ul>
 {{#each todos}}
@@ -8,15 +9,13 @@
             <label>
                 {{#if completed}}
                     <input type="checkbox" checked>
-                    <span class="comleted">{{name}} {{description}}
-                    </span>
+                    <span class="comleted">{{name}}</span>
                 {{else}}
                     <input type="checkbox" onChange="functionChanged();">
-                    <span> {{name}} {{description}}
-                    </span>
+                    <span><a href="read/{{id}}">{{name}} {{id}}</a></span>
                 {{/if}}
                 <input type="hidden" value="{{id}}" name="id">
-
+                    
                 <button class="btn btn-small" type="submit">Delete</button>
             </label>
         </form>
@@ -26,4 +25,5 @@
     
 {{else}}
     <p>No Todos!</p>
+{{/if}}
 {{/if}}

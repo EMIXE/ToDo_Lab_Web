@@ -1,9 +1,6 @@
 const { Schema, model } = require('mongoose')
 
 const schema = new Schema({
-    _id: {
-        type: Number
-    },
     name: {
         type: String,
         required: true
@@ -14,6 +11,10 @@ const schema = new Schema({
     completed: {
         type: Boolean,
         default: false
+    },
+    user: {
+        type: String,
+        required: true
     }
 })
 

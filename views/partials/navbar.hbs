@@ -25,7 +25,12 @@
         {{else}}
           <li><a href="/delete">Delete</a></li>
         {{/if}}
-
+        
+        {{#if User}}
+          <li><form action="/logout" method="POST">
+            <button class="btn btn-small" type="submit">Logout</button>
+          </form></li>
+        {{/if}}
         
 
       </ul>

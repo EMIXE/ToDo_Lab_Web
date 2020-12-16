@@ -1,23 +1,25 @@
 const {Router} = require('express')
 const router = Router()
 const Todo = require('../models/Todo')
-
-// function functionChanged()
-// {
-//     const todo = Todo.findById(req.body.id)
-//     todo.completed = true
-// }
+const passport = require('passport')
+session = require('express-session');
 
 router.get('/', async (req,res) => {
-    const todos = await Todo.find({})
-
-    //Handlebars.registerHelper('functionChanged()', functionChanged());
-
-    res.render('index', {
-        title: 'Todos list',
-        isIndex: true,
-        todos
-    })
+    if(req.session.user) {
+        const todos = await Todo.find({user: req.session.user.email})
+        res.render('index', {
+            title: 'Todos list',
+            isIndex: true,
+            User : req.session.user,
+            todos
+        })
+    } else {
+        res.render('index', {
+            title: 'Todos list',
+            isIndex: true
+        })
+    }
+    
 })
 
 router.get('/create', (req,res) => {
@@ -48,11 +50,10 @@ router.get('/delete', (req,res) => {
 })
 
 router.post('/create', async (req, res) => {
-    const todos = await Todo.find({})
     const todo = new Todo({
-        _id: todos.length+1,
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        user: req.session.user.email
     })
 
     await todo.save()
@@ -65,8 +66,14 @@ router.post('/delete', async (req,res) => {
 })
 
 router.get('/read/:id', async (req,res) => {
-    const result = await Todo.findById(req.query.id)
-    res.send('<p>' + result.name + " " + result.description + " " + result.completed + '</p>')
+    var id = req.params.id
+    console.log(id)
+    const result = await Todo.findById(id)
+    res.render('read', {
+        title: 'Read todo',
+        result
+    })
+    //res.send('<p> Your todo: ' + result.name + " " + result.description + " " + result.completed + '</p>')
 })
 
 router.post('/update', (req,res) => {

@@ -1,10 +1,44 @@
 const {Router} = require('express')
 const router = Router()
-const controller = require('../controllers/auth')
 const User = require('../models/User')
+const keys = require('../config/keys')
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
+ 
 
-//router.post('/login', controller.login)
+checkUser = function(userData) {
+    return User
+    .findOne({email: userData.email})
+    .then(function(user){
+        const passwordResult = bcrypt.compareSync(userData.password, user.password)
+        if ( passwordResult ) {
+            console.log("User password is ok");
+            return Promise.resolve(user)
+    } else {
+        return Promise.reject("Error wrong")
+    }
+    })
+   }
+
+router.post('/login', (req, res, next) => {
+    
+    //const candidate = await User.findOne({email: req.body.email})
+    
+    checkUser(req.body)
+        .then(function(user){
+            if(user) {
+                console.log('tesrt')
+                req.session.user = {id: user._id, email: user.email}
+                
+                console.log(req.session.user)
+                res.redirect('/')
+            } else {
+                return next(error)
+                }
+            }).catch(function(error){
+                return next(error)
+ })
+})
 
 router.post('/register', async (req,res) => {
     const candidate = await User.findOne({email: req.body.email})
@@ -21,127 +55,31 @@ router.post('/register', async (req,res) => {
        })
        try {
            await user.save()
-           res.status(201).json(user)
+           res.redirect('/login')
        } catch(e) {
            //TODO error
        }
     }
     
 })
+router.post('/logout', function(req, res, next) {
+    if (req.session.user) {
+    delete req.session.user;
+    res.redirect('/login')
+    }
+})
+
 
 router.get('/register', (req,res) => {
     res.render('registration', {
         title: 'Registrrr'
     })
 })
-// const User = require('../models/User')
 
-// const uuidv4 = require('uuid/v4');
+router.get('/login', (req,res) => {
+    res.render('login', {
+        title: 'Log in'
+    })
+})
 
-
-
-// let auth = function(req, res, next) {
-//     User
-//       .getToken(req.headers.authorization)
-//       .then((results)=>{
-//         if (results.length == 0) {
-//           const err = new Error('Не авторизован!');
-//           err.status = 401;
-//           next(err); 
-//         } else {
-//           next()
-//         }
-//       })
-//       .catch((err)=>{
-//         next(err);
-//       })
-//   }
-
-// const isValidPassword = function(user, password) {
-//     return bcrypt.compareSync(password, user.password);
-//   }
-
-//   router.get('/registration', (req,res) => {
-//       res.render('registration', {
-//         title: 'Registration'
-//       })
-//   })
-
-//   router.get('/secret', auth, (req, res)=>{
-//     res.json({
-//       message: 'Секретная страница!'
-//     })   
-//   });
-  
-//   router.post('/registration', (req, res, next)=>{
-//     if(req.body.password === req.body.repeatPassword){
-//       User
-//         .getUser(req.body.email)
-//         .then((results)=>{
-//           if (results.length == 0){
-//             data = {
-//               email: req.body.email,
-//               password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null)
-//             };
-//             User
-//               .add('users', data)
-//               .then((results)=>{
-//                 res.json({
-//                   message: 'Пользователь добавлен: ' + results[0]
-//                 })
-//               })
-//               .catch((err)=>{
-//                 next(err);
-//               })
-//           } else {
-//             const err = new Error('Такой пользователь уже есть!');
-//             err.status = 400;
-//               next(err);
-//           }
-//         })
-//         .catch((err)=>{
-//           next(err);
-//         })
-//     } else {
-//       const err = new Error('Не совпадает пароль и подтверждение пароля!');
-//       err.status = 400;
-//         next(err);        
-//     }
-//   })
-  
-//   // router.post('/login', (req, res, next)=>{
-//   //   db
-//   //     .getUser(req.body.email)
-//   //     .then((results)=>{
-//   //       if (isValidPassword(results[0], req.body.password)) {
-//   //         data ={};
-//   //         data.login=req.body.email;
-//   //         data.token=uuidv4();
-//   //         db
-//   //           .delete(req.body.email)
-//   //           .then((results)=>{
-//   //             db
-//   //               .add('token', data)
-//   //               .then((results)=>{
-//   //                 res.json({
-//   //                   token: results.token
-//   //                 })                            
-//   //               })
-//   //               .catch((err)=>{
-//   //                 next(err)
-//   //               })
-//   //           })
-//   //           .catch((err)=>{
-//   //             next(err)
-//   //           })
-//   //       } else {
-//   //         const err = new Error('Не верный логин или пароль!');
-//   //         err.status = 400;
-//   //         next(err); 
-//   //       }
-//   //     })
-//   //     .catch((err)=>{
-//   //       next(err);
-//   //     })
-//   // })
 module.exports = router

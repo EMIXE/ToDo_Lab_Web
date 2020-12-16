@@ -1,7 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
+const passport = require('passport')
 const exphbs = require('express-handlebars')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session);
+
 const todosRoutes = require('./routes/todos')
 const usersRoutes = require('./routes/users')
 
@@ -19,6 +23,21 @@ app.set('views', 'views')
 
 app.use(express.urlencoded({extended: true}))
 app.use(express.static(path.join(__dirname, 'public')))
+
+
+var sessionMiddleware = session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ 
+        url: 'mongodb+srv://Artyom:30041969n@cluster0.atbrl.mongodb.net/WEB_Lab_0'
+    })
+  });
+app.use(sessionMiddleware);
+
+app.use(passport.initialize())
+
+//require('./middleware/passport')(passport)
 app.use(todosRoutes)
 app.use(usersRoutes)
 

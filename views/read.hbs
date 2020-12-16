@@ -1,10 +1,17 @@
-  <form action="/read/:{{id}}" method="GET">
     <h2>Read operation</h2>
     <div class="row">
         <div class="input-field col s12">
-            <input type="number" name="id" min="1" max="999" required></input>
-            <label>Id todo for read</label>
+          {{#if result}}
+            {{#if result.completed}}
+              <div class="input-field col s12" style="background-color: #90EE90;">
+                <p>Your todo: {{result.name}}</p>
+                <p>Description: {{result.description}}</p>
+              {{else}}
+                <div class="input-field col s12" style="background-color: #FA8072;">
+                <p>Your todo: {{result.name}}</p>
+                <p>Description: {{result.description}}</p>
+              {{/if}}
+          </div>
+          {{/if}}
         </div>
     </div>
-    <button type="submit" class="btn">Read</button>
- </form>
